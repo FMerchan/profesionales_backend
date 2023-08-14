@@ -39,7 +39,12 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
       - { path: ^/admin, roles: ROLE_ADMIN }
+      - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
       - { path: ^/, roles: ROLE_ADMIN }
+
+    encoders:
+        App\Entity\User:
+            algorithm: bcrypt
 
 when@test:
     security:
@@ -53,3 +58,6 @@ when@test:
                 cost: 4 # Lowest possible value for bcrypt
                 time_cost: 3 # Lowest possible value for argon
                 memory_cost: 10 # Lowest possible value for argon
+            App\Entity\User:
+                algorithm: auto # O el algoritmo que estás utilizando (por ejemplo, bcrypt)
+                cost: 12

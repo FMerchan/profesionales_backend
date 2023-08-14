@@ -6,28 +6,32 @@ use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-use App\Entity\State;
-use App\Entity\Country;
-use App\Entity\City;
 
-#[ORM\Entity(repositoryClass: UserRepository::class)]
-class User implements UserInterface, PasswordAuthenticatedUserInterface
+/**
+ * @ORM\Entity
+ */
+class User implements UserInterface
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
+     */
     private ?int $id = null;
 
-    #[ORM\Column(length: 180, unique: true)]
+    /**
+     * @ORM\Column(type="string", length=255, unique=true)
+     */
     private ?string $email = null;
 
-    #[ORM\Column]
-    private array $roles = [];
+    /**
+     * @ORM\Column(type="json")
+     */
+    private ?array $roles = [];
 
     /**
-     * @var string The hashed password
+     * @ORM\Column(type="string", length=250, unique=true)
      */
-    #[ORM\Column]
     private ?string $password = null;
 
     /**
@@ -63,7 +67,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->email;
     }
 
-    public function setEmail(string $email): static
+    public function setEmail(string $email): self
     {
         $this->email = $email;
 
@@ -88,21 +92,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return (string) $this->email;
     }
 
-    /**
-     * @see UserInterface
-     */
     public function getRoles(): array
     {
         $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
-
+        $roles[] = 'ROLE_USER'; // Añadir el rol por defecto si no está presente
         return array_unique($roles);
     }
 
-    public function setRoles(array $roles): static
+    public function setRoles($roles): self
     {
         $this->roles = $roles;
+
 
         return $this;
     }
@@ -115,36 +115,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->password;
     }
 
-    public function setPassword(string $password): static
+    public function setPassword(string $password): self
     {
         $this->password = $password;
 
         return $this;
     }
 
-    /**
-     * Returning a salt is only needed, if you are not using a modern
-     * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
-     *
-     * @see UserInterface
-     */
-    public function getSalt(): ?string
-    {
-        return null;
-    }
-
-    /**
-     * @see UserInterface
-     */
-    public function eraseCredentials(): void
-    {
-        // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
-    }
-
     public function addRole($role): void
     {
-        if (!in_array($role, $this->roles, true)) {
+        if (is_null($this->roles) || !in_array($role, $this->roles, true)) {
             $this->roles[] = $role;
         }
     }
@@ -154,7 +134,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $key = array_search($role, $this->roles, true);
         if ($key !== false) {
             unset($this->roles[$key]);
-            // Reset the array keys to ensure consistency
             $this->roles = array_values($this->roles);
         }
     }
@@ -201,5 +180,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->postalCode = $postalCode;
         return $this;
+    }
+
+    public function getSalt()
+    {
+        return "";
+    }
+
+    public function eraseCredentials()
+    {
+        // TODO: Implement eraseCredentials() method.
     }
 }
