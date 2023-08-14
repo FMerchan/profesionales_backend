@@ -1,0 +1,25 @@
+easy_admin:
+  design:
+    menu:
+      - {label: "Entities"}
+  site_name: 'nombre'
+  user:
+    display_name: true
+    display_avatar: true
+  entities:
+    - App\Entity\User
+    #User:
+    #  class: App\Entity\User # Asegúrate de que esta ruta sea correcta
+    #  label: Usuarios
+    #  list:
+    #    fields:
+    #      - id
+    #      - username
+    #      - email
+    #      - roles
+    #  show:
+    #    fields:
+    #      - id
+    #      - username
+    #      - email
+  #      - roles
