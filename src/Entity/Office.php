@@ -21,9 +21,9 @@ class Office
     private string $name;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=true)
      */
-    private string $detail;
+    private ?string $detail;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -32,34 +32,34 @@ class Office
 
     /**
      * @ORM\ManyToOne(targetEntity="City")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private City $city;
 
     /**
      * @ORM\ManyToOne(targetEntity="Country")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private Country $country;
 
     /**
      * @ORM\ManyToOne(targetEntity="State")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private State $state;
 
     /**
-     * @ORM\Column(type="string", length=10)
+     * @ORM\Column(type="string", length=10, nullable=true)
      */
     private string $postalCode;
 
     /**
-     * @ORM\Column(type="decimal", precision=10, scale=7)
+     * @ORM\Column(type="decimal", precision=10, scale=7, nullable=true)
      */
     private string $longitude;
 
     /**
-     * @ORM\Column(type="decimal", precision=10, scale=7)
+     * @ORM\Column(type="decimal", precision=10, scale=7, nullable=true)
      */
     private string $latitude;
 
@@ -69,7 +69,7 @@ class Office
     private string $price;
 
     /**
-     * @ORM\Column(type="string", length=3)
+     * @ORM\Column(type="string", length=3, nullable=true)
      */
     private string $currency;
 
@@ -87,6 +87,12 @@ class Office
      * @ORM\Column(type="json", nullable=true)
      */
     private ?array $availableTimes = [];
+
+    /**
+     * @ORM\ManyToOne(targetEntity="UserProfessional", inversedBy="offices")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private UserProfessional $userProfessional;
 
     public function getId(): ?int
     {
@@ -109,7 +115,7 @@ class Office
         return $this->detail;
     }
 
-    public function setDetail(string $detail): self
+    public function setDetail(?string $detail): self
     {
         $this->detail = $detail;
         return $this;
@@ -245,5 +251,27 @@ class Office
     {
         $this->availableTimes = $availableTimes;
         return $this;
+    }
+
+    public function getUserProfessional(): UserProfessional
+    {
+        return $this->userProfessional;
+    }
+
+    public function setUserProfessional(UserProfessional $userProfessional): self
+    {
+        $this->userProfessional = $userProfessional;
+        return $this;
+    }
+
+    public function getOfficesAsArray(): array
+    {
+        return [
+            'name' => $this->getName(),
+            'address' => $this->getAddress(),
+            'longitud' => $this->getLongitude(),
+            'latitud' => $this->getLatitude(),
+            'price' => $this->getPrice(),
+        ];
     }
 }

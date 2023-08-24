@@ -33,6 +33,10 @@ class UserProfessionalProfessional
         return $this->id;
     }
 
+    public function __toString() {
+        return $this->professional->getName();
+    }
+
     public function getUserProfessional(): UserProfessional
     {
         return $this->userProfessional;

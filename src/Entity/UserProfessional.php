@@ -6,10 +6,18 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\UserProfessionalRepository")
  */
 class UserProfessional
 {
+    CONST TYPE_USER = 1;
+    CONST TYPE_PROFESSIONAL = 2;
+
+    CONST TYPES = [
+        self::TYPE_USER,
+        self::TYPE_PROFESSIONAL
+    ];
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -18,9 +26,9 @@ class UserProfessional
     private ?int $id = null;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private string $phoneNumber;
+    private ?string $phoneNumber;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -33,9 +41,14 @@ class UserProfessional
     private string $lastName;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private string $licenseNumber;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private int $type;
 
     /**
      * @ORM\ManyToOne(targetEntity="User")
@@ -44,7 +57,7 @@ class UserProfessional
     private User $user;
 
     /**
-     * @ORM\OneToMany(targetEntity="UserProfessionalProfessional", mappedBy="userProfessional")
+     * @ORM\OneToMany(targetEntity="UserProfessionalProfessional", mappedBy="userProfessional", cascade={"persist"})
      */
     private Collection $userProfessionalProfessionals;
 
@@ -53,9 +66,15 @@ class UserProfessional
      */
     private ?array $authenticatorData = null;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Office", mappedBy="userProfessional")
+     */
+    private $offices;
+
     public function __construct()
     {
         $this->userProfessionalProfessionals = new ArrayCollection();
+        $this->offices = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -63,7 +82,7 @@ class UserProfessional
         return $this->id;
     }
 
-    public function getPhoneNumber(): string
+    public function getPhoneNumber(): ?string
     {
         return $this->phoneNumber;
     }
@@ -164,5 +183,69 @@ class UserProfessional
     {
         $this->authenticatorData = $authenticatorData;
         return $this;
+    }
+
+    public function getType(): int
+    {
+        return $this->type;
+    }
+
+    public function setType(int $type): self
+    {
+        if (!in_array($type, self::TYPES)) {
+            throw new \InvalidArgumentException('Invalid type value');
+        }
+
+        $this->type = $type;
+        return $this;
+    }
+
+    /**
+     * @return Collection|Office[]
+     */
+    public function getOffices(): Collection
+    {
+        return $this->offices;
+    }
+
+    public function getProfessionsNames(): string
+    {
+        $professionNames = [];
+        foreach ($this->userProfessionalProfessionals as $userProfessionalProfessional) {
+            $profession = $userProfessionalProfessional->getProfessional();
+            if ($profession) {
+                $professionNames[] = $profession->getName();
+            }
+        }
+
+        return implode(', ', $professionNames);
+    }
+
+    public function getFullName(): string {
+        return $this->getFirstName() . ' ' . $this->getLastName();
+    }
+
+    public function getUserProfessionalAsArray(): array
+    {
+        $user = $this->getUser();
+        return [
+            'id'            => $this->getId(),
+            'fullName'      => $this->getFullName(),
+            'name'          => $this->getFirstName(),
+            'lastName'      => $this->getLastName(),
+            'phoneNumber'   => $this->getPhoneNumber(),
+            'email'         => $user->getEmail(),
+            'licenseNumber' => $this->getLicenseNumber(),
+            'offices'       => $this->getOfficesAsArray(),
+        ];
+    }
+
+    public function getOfficesAsArray(): array
+    {
+        $officesData = [];
+        foreach ($this->getOffices() as $office) {
+            $officesData[] = $office->getOfficesAsArray();
+        }
+        return $officesData;
     }
 }

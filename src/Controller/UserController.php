@@ -7,16 +7,11 @@ use App\Entity\UserProfessional;
 use App\Security\EmailAuthenticator;
 use App\Service\UserService;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Security;
-use Symfony\Component\Security\Http\Authenticator\Passport\Badge\CsrfTokenBadge;
-use Symfony\Component\Security\Http\Authenticator\Passport\Badge\RememberMeBadge;
-use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
-use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\PasswordCredentials;
-use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 
 /**
  * @Route("/user")
@@ -25,11 +20,13 @@ class UserController extends AbstractController
 {
     private EntityManagerInterface $entityManager;
     private $userService;
+    private $logger;
 
-    public function __construct(EntityManagerInterface $entityManager, UserService $userService)
+    public function __construct(EntityManagerInterface $entityManager, UserService $userService, LoggerInterface $logger)
     {
         $this->entityManager = $entityManager;
         $this->userService = $userService;
+        $this->logger = $logger;
     }
 
     /**
@@ -60,15 +57,52 @@ class UserController extends AbstractController
     /**
      * @Route("/create-user", name="create_user", methods={"POST"})
      */
-    public function createUser(Request $request, UserPasswordEncoderInterface $passwordEncoder): JsonResponse
+    public function createUser(Request $request): JsonResponse
     {
-        $data = json_decode($request->getContent(), true);
+        try {
+            $entityManager = $this->entityManager;
+            $data = json_decode($request->getContent(), true);
 
-        $this->userService->createUser($data);
+            $userRepository = $entityManager->getRepository(User::class);
+            $user = $userRepository->findOneBy(['email' => $data['data']['usuario']['perfil']['email']]);
 
-        return new JsonResponse(['message' => 'User created']);
+            if (!$user) {
+                $user = $this->userService->createUserMobile($data, null);
+            }
+
+            return new JsonResponse(['status' => true, 'message' => 'User created', 'id' => $user->getId()]);
+        } catch (\Exception $e) {
+            $errorMessage = 'Error creating user: ' . $e->getMessage() . "\n" . $e->getTraceAsString();
+            $this->logger->error($errorMessage);
+
+            return new JsonResponse(['status' => false, 'message' => 'Error creating user', 'error' => $e->getMessage()]);
+        }
     }
 
+    /**
+     * @Route("/edit-user/{id}", name="edit_user", methods={"POST"})
+     */
+    public function editUser(Request $request, int $id): JsonResponse
+    {
+        try {
+            $entityManager = $this->entityManager;
+            $userProfessional = $entityManager->getRepository(UserProfessional::class)->find($id);
+
+            if (!$userProfessional) {
+                return new JsonResponse(['status' => false, 'message' => 'UserProfessional not found']);
+            }
+
+            $data = json_decode($request->getContent(), true);
+            $this->userService->createUserMobile($data, $userProfessional);
+
+            return new JsonResponse(['status' => true, 'message' => 'User created']);
+        } catch (\Exception $e) {
+            $errorMessage = 'Error creating user: ' . $e->getMessage();
+            $this->logger->error($errorMessage);
+
+            return new JsonResponse(['status' => false, 'message' => 'Error creating user', 'error' => $e->getMessage()]);
+        }
+    }
 
     /**
      * @Route("/check-user", name="check_user", methods={"GET"})

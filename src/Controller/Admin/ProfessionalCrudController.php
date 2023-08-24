@@ -31,7 +31,8 @@ class ProfessionalCrudController extends AbstractCrudController
             })
             ->update(Crud::PAGE_INDEX, ACTION::EDIT, function (Action $action) {
                 return $action->setIcon('fa fa-edit')->addCssClass('btn btn-warning');
-            });
+            })
+            ->remove(Crud::PAGE_INDEX, Action::DELETE);
     }
 
     public function configureFields(string $pageName): iterable

@@ -2,36 +2,90 @@
 
 namespace App\Service;
 
+use App\Entity\Professional;
 use App\Entity\User;
 use App\Entity\UserProfessional;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserService
 {
     private $entityManager;
+    private $passwordHasher;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher)
     {
         $this->entityManager = $entityManager;
+        $this->passwordHasher = $passwordHasher;
     }
 
-    public function createUser(array $userData): void
+    public function createUserMobile(array $userData, ?UserProfessional $userProfessional): UserProfessional
     {
-        $user = new User();
-        $user->setEmail($userData['email']);
+        $entityManager = $this->entityManager;
+        $profile = $userData['data']['usuario']['perfil'];
+
+        if (!$userProfessional) {
+            $user = new User();
+            $userProfessional = new UserProfessional();
+        } else {
+            $user = $userProfessional->getUser();
+        }
+
+        $user->setEmail($profile['email']);
         $user->addRole('ROLE_MOBILE');
 
-        $userProfessional = new UserProfessional();
-        $userProfessional->setFirstName($userData['firstName']);
-        $userProfessional->setLastName($userData['lastName']);
-        $userProfessional->setLicenseNumber($userData['licenseNumber']);
-        $userProfessional->setPhoneNumber($userData['phoneNumber']);
+        $userProfessional->setFirstName($profile['name']);
+        $userProfessional->setLastName($profile['lastName']);
+        $userProfessional->setLicenseNumber($profile['matricula']);
+        //$userProfessional->setPhoneNumber($profile['phoneNumber']);
+        $userProfessional->setAuthenticatorData($userData['data']['usuario']['authenticatorData']);
+        $userProfessional->setType($profile['userType']);
         $userProfessional->setUser($user);
 
-        // Encode and set the password
-        $this->entityManager->persist($user);
+        $this->updateProfessions($userProfessional, $profile['professions']);
 
-        $this->entityManager->persist($userProfessional);
+        // Generar una contraseña aleatoria
+        $randomPassword = bin2hex(random_bytes(8));
+        $user->setPassword($randomPassword);
+
+        if (!$userProfessional->getId()) {
+            $this->entityManager->persist($user);
+            $this->entityManager->persist($userProfessional);
+        }
         $this->entityManager->flush();
+
+        return $userProfessional;
+    }
+
+    private function updateProfessions(UserProfessional $userProfessional, array $newProfessionIds): void
+    {
+        $entityManager = $this->entityManager;
+        $professionalRepository = $entityManager->getRepository(Professional::class);
+
+        $currentProfessions = $userProfessional->getUserProfessionalProfessionals();
+
+        // Crear una colección de IDs de profesiones actuales
+        $currentProfessionIds = [];
+        foreach ($currentProfessions as $currentProfession) {
+            $currentProfessionIds[] = $currentProfession->getProfessional()->getId();
+        }
+
+        // Agregar nuevas profesiones
+        foreach ($newProfessionIds as $newProfessionId) {
+            if (!in_array($newProfessionId, $currentProfessionIds)) {
+                $professional = $professionalRepository->find($newProfessionId);
+                if ($professional) {
+                    $userProfessional->addProfessional($professional);
+                }
+            }
+        }
+
+        // Eliminar profesiones que ya no están en la lista nueva
+        foreach ($currentProfessions as $currentProfession) {
+            if (!in_array($currentProfession->getProfessional()->getId(), $newProfessionIds)) {
+                $userProfessional->removeProfessional($currentProfession->getProfessional());
+                $entityManager->remove($currentProfession);
+            }
+        }
     }
 }

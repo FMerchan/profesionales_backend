@@ -35,6 +35,16 @@ class User implements UserInterface
     private ?string $password = null;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    private bool $isEnable = true;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private bool $isBlocked = false;
+
+    /**
      * @ORM\ManyToOne(targetEntity="Country")
      * @ORM\JoinColumn(nullable=true)
      */
@@ -190,5 +200,27 @@ class User implements UserInterface
     public function eraseCredentials()
     {
         // TODO: Implement eraseCredentials() method.
+    }
+
+    public function getIsEnable(): bool
+    {
+        return $this->isEnable;
+    }
+
+    public function setIsEnable(bool $isEnable): self
+    {
+        $this->isEnable = $isEnable;
+        return $this;
+    }
+
+    public function getIsBlocked(): bool
+    {
+        return $this->isBlocked;
+    }
+
+    public function setIsBlocked(bool $isBlocked): self
+    {
+        $this->isBlocked = $isBlocked;
+        return $this;
     }
 }
