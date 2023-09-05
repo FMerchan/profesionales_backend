@@ -67,6 +67,11 @@ class User implements UserInterface
      */
     private ?string $postalCode = null;
 
+    /**
+     * @ORM\OneToOne(targetEntity="UserProfessional", mappedBy="user")
+     */
+    private ?UserProfessional $userProfessional = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -222,5 +227,10 @@ class User implements UserInterface
     {
         $this->isBlocked = $isBlocked;
         return $this;
+    }
+
+    public function getUserProfessional(): ?UserProfessional
+    {
+        return $this->userProfessional;
     }
 }

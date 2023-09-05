@@ -244,7 +244,7 @@ class UserProfessional
     {
         $officesData = [];
         foreach ($this->getOffices() as $office) {
-            $officesData[] = $office->getOfficesAsArray();
+            $officesData[] = $office->getAsArray();
         }
         return $officesData;
     }

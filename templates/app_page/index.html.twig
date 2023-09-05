@@ -1,0 +1,10 @@
+{# templates/admin/custom_page/index.html.twig #}
+
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block content_title %}Descargar App{% endblock %}
+
+{% block page_content %}
+    <p>Aplicación generada el 5 de Septiembre.</p>
+    <a href="{{ path('download_file', { 'file': 'file.txt' }) }}">Descargar App</a>
+{% endblock %}

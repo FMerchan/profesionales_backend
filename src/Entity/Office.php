@@ -1,10 +1,11 @@
 <?php
 
 namespace App\Entity;
+
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\OfficeRepository")
  */
 class Office
 {
@@ -110,7 +111,7 @@ class Office
         return $this;
     }
 
-    public function getDetail(): string
+    public function getDetail(): ?string
     {
         return $this->detail;
     }
@@ -264,7 +265,7 @@ class Office
         return $this;
     }
 
-    public function getOfficesAsArray(): array
+    public function getAsArray(): array
     {
         return [
             'name' => $this->getName(),
@@ -273,5 +274,39 @@ class Office
             'latitud' => $this->getLatitude(),
             'price' => $this->getPrice(),
         ];
+    }
+
+    public function getFullAsArray(): array
+    {
+        return [
+            'id' => $this->getId(),
+            'name' => $this->getName(),
+            'detail' => $this->getDetail(),
+            'address' => $this->getAddress(),
+            'longitud' => $this->getLongitude(),
+            'latitud' => $this->getLatitude(),
+            'price' => $this->getPrice(),
+            'businessDays' => $this->getBusinessDays(),
+            'duration' => $this->getDuration(),
+            'availableTimes' => $this->getAvailableTimes(),
+        ];
+    }
+
+    public function getFormattedBusinessDays(): string
+    {
+        $days = $this->businessDays;
+        $formattedDays = implode(", ", $days);
+        return $formattedDays;
+    }
+
+    public function getFormattedAvailableTimes(): string
+    {
+        $formattedTimes = [];
+
+        foreach ($this->getAvailableTimes() as $time) {
+            $formattedTimes[] = $time['from'] . ' - ' . $time['until'];
+        }
+
+        return implode(", ", $formattedTimes);
     }
 }

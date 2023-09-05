@@ -69,8 +69,9 @@ class UserController extends AbstractController
             if (!$user) {
                 $user = $this->userService->createUserMobile($data, null);
             }
+            $userProfessional = $user->getUserProfessional();
 
-            return new JsonResponse(['status' => true, 'message' => 'User created', 'id' => $user->getId()]);
+            return new JsonResponse(['status' => true, 'message' => 'User created', 'id' => $userProfessional->getId()]);
         } catch (\Exception $e) {
             $errorMessage = 'Error creating user: ' . $e->getMessage() . "\n" . $e->getTraceAsString();
             $this->logger->error($errorMessage);

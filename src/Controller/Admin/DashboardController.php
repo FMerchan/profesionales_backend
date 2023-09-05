@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Office;
 use App\Entity\Professional;
 use App\Entity\UserProfessional;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
@@ -17,24 +18,6 @@ class DashboardController extends AbstractDashboardController
     public function index(): Response
     {
         return $this->render('bundles/EasyAdminBundle/welcome.html.twig');
-
-        //return parent::index();
-
-        // Option 1. You can make your dashboard redirect to some common page of your backend
-        //
-        // $adminUrlGenerator = $this->container->get(AdminUrlGenerator::class);
-        // return $this->redirect($adminUrlGenerator->setController(OneOfYourCrudController::class)->generateUrl());
-
-        // Option 2. You can make your dashboard redirect to different pages depending on the user
-        //
-        // if ('jane' === $this->getUser()->getUsername()) {
-        //     return $this->redirect('...');
-        // }
-
-        // Option 3. You can render some custom template to display a proper dashboard with widgets, etc.
-        // (tip: it's easier if your template extends from @EasyAdmin/page/content.html.twig)
-        //
-        // return $this->render('some/path/my-dashboard.html.twig');
     }
 
     public function configureDashboard(): Dashboard
@@ -49,11 +32,10 @@ class DashboardController extends AbstractDashboardController
             MenuItem::linkToDashboard('Dashboard', 'fa fa-home'),
 
             MenuItem::linkToCrud('Usuarios', 'fa fa-user', User::class),
-            MenuItem::linkToCrud('Profesionales', 'fa fa-user', UserProfessional::class),
-            MenuItem::linkToCrud('Profesiones', 'fa fa-user', Professional::class),
-
+            MenuItem::linkToCrud('Profesionales', 'fa fa-stethoscope', UserProfessional::class),
+            MenuItem::linkToCrud('Profesiones', 'fa fa-book', Professional::class),
+            MenuItem::linkToCrud('Oficinas', 'fa fa-building', Office::class),
+            MenuItem::linkToRoute('App', 'fas fa-mobile-alt', 'app_page'),
         ];
-        //yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
-        // yield MenuItem::linkToCrud('The Label', 'fas fa-list', EntityClass::class);
     }
 }

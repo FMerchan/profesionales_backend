@@ -59,7 +59,7 @@ class OfficeController extends AbstractController
             $office = $this->officeService->createOffice($userProfessional, $data, $userIP);
             return new JsonResponse(['status' => true, 'message' => 'User created']);
         } catch (\InvalidArgumentException $e) {
-            $errorMessage = 'Error creating user: ' . $e->getMessage();
+            $errorMessage = 'Error creating office: ' . $e->getMessage();
             $this->logger->error($errorMessage);
 
             return new JsonResponse(['status' => false, 'message' => $e->getMessage()]);
@@ -72,9 +72,18 @@ class OfficeController extends AbstractController
     }
 
     /**
-     * @Route("/get-offices", name="get_offices", methods={"GET"})
+     * @Route("/get-offices/{id}", name="get_offices", methods={"GET"})
      */
-    public function getOffices(): JsonResponse
+    public function getOffices(int $id): JsonResponse
     {
+        $offices = $this->entityManager->getRepository(Office::class)->findBy(['userProfessional' => $id]);
+
+        // Convert the professionals array to a format suitable for JSON response
+        $responseArray = [];
+        foreach ($offices as $office) {
+            $responseArray[] = $office->getFullAsArray();
+        }
+
+        return $this->json($responseArray);
     }
 }
