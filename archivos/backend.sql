@@ -129,7 +129,7 @@ CREATE TABLE `office` (
   CONSTRAINT `FK_74516B025D83CC1` FOREIGN KEY (`state_id`) REFERENCES `state` (`id`),
   CONSTRAINT `FK_74516B028BAC62AF` FOREIGN KEY (`city_id`) REFERENCES `city` (`id`),
   CONSTRAINT `FK_74516B02F92F3E70` FOREIGN KEY (`country_id`) REFERENCES `country` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -138,7 +138,7 @@ CREATE TABLE `office` (
 
 LOCK TABLES `office` WRITE;
 /*!40000 ALTER TABLE `office` DISABLE KEYS */;
-INSERT INTO `office` VALUES (1,NULL,NULL,NULL,'Consultorio H',NULL,'Puyrredon 440',NULL,-58.3942600,-34.6048080,1500.00,NULL,'[\"M\", \"X\", \"J\", \"V\", \"S\"]',30,'[{\"from\": \"9:00\", \"until\": \"12:30\"}, {\"from\": \"14:00\", \"until\": \"16:00\"}, {\"from\": \"17:00\", \"until\": \"20:30\"}]',6),(2,NULL,NULL,NULL,'Consultorio H',NULL,'Puyrredon 440',NULL,-58.3942600,-34.6048080,2500.00,NULL,'[\"M\", \"X\", \"J\", \"V\", \"S\"]',30,'[{\"from\": \"9:00\", \"until\": \"12:30\"}, {\"from\": \"14:00\", \"until\": \"16:00\"}, {\"from\": \"17:00\", \"until\": \"20:30\"}]',8),(3,NULL,NULL,NULL,'Consultorio B',NULL,'Necochea 670',NULL,-58.4056310,-34.6144470,2300.00,NULL,'[\"M\", \"X\", \"J\", \"V\", \"S\"]',30,'[{\"from\": \"14:00\", \"until\": \"20:00\"}]',9),(4,NULL,NULL,NULL,'Consultorio A',NULL,'Av Cordoba 1400',NULL,-58.3704150,-34.5978290,2100.00,NULL,'[\"L\", \"M\", \"X\", \"J\", \"V\"]',30,'[{\"from\": \"9:00\", \"until\": \"12:30\"}, {\"from\": \"14:00\", \"until\": \"16:30\"}]',12);
+INSERT INTO `office` VALUES (1,NULL,NULL,NULL,'Consultorio H',NULL,'Puyrredon 440',NULL,-58.3942600,-34.6048080,1500.00,NULL,'[\"M\", \"X\", \"J\", \"V\", \"S\"]',30,'[{\"from\": \"9:00\", \"until\": \"12:30\"}, {\"from\": \"14:00\", \"until\": \"16:00\"}, {\"from\": \"17:00\", \"until\": \"20:30\"}]',6),(2,NULL,NULL,NULL,'Consultorio H',NULL,'Puyrredon 440',NULL,-58.3942600,-34.6048080,2500.00,NULL,'[\"M\", \"X\", \"J\", \"V\", \"S\"]',30,'[{\"from\": \"9:00\", \"until\": \"12:30\"}, {\"from\": \"14:00\", \"until\": \"16:00\"}, {\"from\": \"17:00\", \"until\": \"20:30\"}]',8),(3,NULL,NULL,NULL,'Consultorio B',NULL,'Necochea 670',NULL,-58.4056310,-34.6144470,2300.00,NULL,'[\"M\", \"X\", \"J\", \"V\", \"S\"]',30,'[{\"from\": \"14:00\", \"until\": \"20:00\"}]',9),(4,NULL,NULL,NULL,'Consultorio A',NULL,'Av Cordoba 1400',NULL,-58.3704150,-34.5978290,2100.00,NULL,'[\"L\", \"M\", \"X\", \"J\", \"V\"]',30,'[{\"from\": \"9:00\", \"until\": \"12:30\"}, {\"from\": \"14:00\", \"until\": \"16:30\"}]',12),(6,NULL,NULL,NULL,'Consultorio H',NULL,'Puyrredon 440',NULL,-58.3942600,-34.6048080,1500.00,NULL,'[\"M\", \"X\", \"J\", \"V\", \"S\"]',30,'[{\"from\": \"9:00\", \"until\": \"12:30\"}, {\"from\": \"14:00\", \"until\": \"16:00\"}, {\"from\": \"17:00\", \"until\": \"20:30\"}]',16);
 /*!40000 ALTER TABLE `office` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -280,7 +280,7 @@ CREATE TABLE `user` (
   CONSTRAINT `FK_8D93D6495D83CC1` FOREIGN KEY (`state_id`) REFERENCES `state` (`id`),
   CONSTRAINT `FK_8D93D6498BAC62AF` FOREIGN KEY (`city_id`) REFERENCES `city` (`id`),
   CONSTRAINT `FK_8D93D649F92F3E70` FOREIGN KEY (`country_id`) REFERENCES `country` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -289,7 +289,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,NULL,NULL,NULL,'test@gmail.com','[\"ROLE_ADMIN\"]','$2y$12$G8tJX3fxSp8OzsQFhpzGZupuAEVTRj5Gw/z4E2KYDzDE0O/jiezTa',NULL,0,0),(3,NULL,NULL,NULL,'merchansalvatierrafacundo@gmail.com','[\"ROLE_MOBILE\"]','3f7e679ba75071a1',NULL,1,0),(9,NULL,NULL,NULL,'alice.smith@example.com','[\"ROLE_MOBILE\"]','6c7944dc6206cd61',NULL,1,0),(10,NULL,NULL,NULL,'bob.jones@example.com','[\"ROLE_MOBILE\"]','fcf5221097e2a9bb',NULL,1,0),(11,NULL,NULL,NULL,'charlie.davis@example.com','[\"ROLE_MOBILE\"]','22e4dfd37c58be0a',NULL,1,0),(12,NULL,NULL,NULL,'david.wilson@example.com','[\"ROLE_MOBILE\"]','9e66ba2188fe3084',NULL,1,0),(13,NULL,NULL,NULL,'eva.martin@example.com','[\"ROLE_MOBILE\"]','310149041ff20795',NULL,1,0),(14,NULL,NULL,NULL,'frank.jackson@example.com','[\"ROLE_MOBILE\"]','f898c44683783550',NULL,1,0),(15,NULL,NULL,NULL,'grace.miller@example.com','[\"ROLE_MOBILE\"]','bd394f49f58b756d',NULL,1,0),(16,NULL,NULL,NULL,'henry.wilson@example.com','[\"ROLE_MOBILE\"]','58f1a96cd2846b3c',NULL,1,0),(17,NULL,NULL,NULL,'isabella.jones@example.com','[\"ROLE_MOBILE\"]','b5f40d44d5473685',NULL,1,0),(18,NULL,NULL,NULL,'jack.miller@example.com','[\"ROLE_MOBILE\"]','56c9957b839c976f',NULL,1,0);
+INSERT INTO `user` VALUES (1,NULL,NULL,NULL,'test@gmail.com','[\"ROLE_ADMIN\"]','$2y$12$G8tJX3fxSp8OzsQFhpzGZupuAEVTRj5Gw/z4E2KYDzDE0O/jiezTa',NULL,0,0),(3,NULL,NULL,NULL,'merchansalvatierrafacundo@gmail.com2','[\"ROLE_MOBILE\"]','3f7e679ba75071a1',NULL,1,0),(9,NULL,NULL,NULL,'alice.smith@example.com','[\"ROLE_MOBILE\"]','6c7944dc6206cd61',NULL,1,0),(10,NULL,NULL,NULL,'bob.jones@example.com','[\"ROLE_MOBILE\"]','fcf5221097e2a9bb',NULL,1,0),(11,NULL,NULL,NULL,'charlie.davis@example.com','[\"ROLE_MOBILE\"]','22e4dfd37c58be0a',NULL,1,0),(12,NULL,NULL,NULL,'david.wilson@example.com','[\"ROLE_MOBILE\"]','9e66ba2188fe3084',NULL,1,0),(13,NULL,NULL,NULL,'eva.martin@example.com','[\"ROLE_MOBILE\"]','310149041ff20795',NULL,1,0),(14,NULL,NULL,NULL,'frank.jackson@example.com','[\"ROLE_MOBILE\"]','f898c44683783550',NULL,1,0),(15,NULL,NULL,NULL,'grace.miller@example.com','[\"ROLE_MOBILE\"]','bd394f49f58b756d',NULL,1,0),(16,NULL,NULL,NULL,'henry.wilson@example.com','[\"ROLE_MOBILE\"]','58f1a96cd2846b3c',NULL,1,0),(17,NULL,NULL,NULL,'isabella.jones@example.com','[\"ROLE_MOBILE\"]','b5f40d44d5473685',NULL,1,0),(18,NULL,NULL,NULL,'jack.miller@example.com','[\"ROLE_MOBILE\"]','56c9957b839c976f',NULL,1,0),(26,NULL,NULL,NULL,'merchansalvatierrafacundo@gmail.com','[\"ROLE_MOBILE\"]','948b5ea5f35ffe0d',NULL,1,0),(27,NULL,NULL,NULL,'ariadmin@gmail.com','[\"ROLE_ADMIN\"]','$2y$13$s8BeU8ZcN14jOvtGy2k1quXm/6tLBlKWZpsN2P8tYSG.bn80Y5cO.',NULL,1,0);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -312,7 +312,7 @@ CREATE TABLE `user_professional` (
   PRIMARY KEY (`id`),
   KEY `IDX_33790FA8A76ED395` (`user_id`),
   CONSTRAINT `FK_33790FA8A76ED395` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -321,7 +321,7 @@ CREATE TABLE `user_professional` (
 
 LOCK TABLES `user_professional` WRITE;
 /*!40000 ALTER TABLE `user_professional` DISABLE KEYS */;
-INSERT INTO `user_professional` VALUES (6,9,NULL,'Alice','Smith','1000004488','{\"name\": \"Alice\", \"email\": \"alice.smith@example.com\", \"lastName\": \"Smith\", \"matricula\": \"1000004488\", \"professions\": [2]}',2),(7,10,NULL,'Bob','Jones','1000004488','{\"name\": \"Bob\", \"email\": \"bob.jones@example.com\", \"lastName\": \"Jones\", \"matricula\": \"1000004488\", \"professions\": [4]}',2),(8,11,NULL,'Charlie','Davis','1000004488','{\"name\": \"Charlie\", \"email\": \"charlie.davis@example.com\", \"lastName\": \"Davis\", \"matricula\": \"1000004488\", \"professions\": [3]}',2),(9,12,NULL,'David','Wilson','1000004488','{\"name\": \"David\", \"email\": \"david.wilson@example.com\", \"lastName\": \"Wilson\", \"matricula\": \"1000004488\", \"professions\": [1]}',2),(10,13,NULL,'Eva','Martin','1000004488','{\"name\": \"Eva\", \"email\": \"eva.martin@example.com\", \"lastName\": \"Martin\", \"matricula\": \"1000004488\", \"professions\": [2]}',2),(11,14,NULL,'Frank','Jackson','1000004488','{\"name\": \"Frank\", \"email\": \"frank.jackson@example.com\", \"lastName\": \"Jackson\", \"matricula\": \"1000004488\", \"professions\": [4]}',2),(12,15,NULL,'Grace','Miller','1000004488','{\"name\": \"Grace\", \"email\": \"grace.miller@example.com\", \"lastName\": \"Miller\", \"matricula\": \"1000004488\", \"professions\": [3]}',2),(13,16,NULL,'Henry','Wilson','1000004488','{\"name\": \"Henry\", \"email\": \"henry.wilson@example.com\", \"lastName\": \"Wilson\", \"matricula\": \"1000004488\", \"professions\": [1]}',2),(14,17,NULL,'Isabella','Jones','1000004488','{\"name\": \"Isabella\", \"email\": \"isabella.jones@example.com\", \"lastName\": \"Jones\", \"matricula\": \"1000004488\", \"professions\": [2]}',2),(15,18,NULL,'Jack','Miller','1000004488','{\"name\": \"Jack\", \"email\": \"jack.miller@example.com\", \"lastName\": \"Miller\", \"matricula\": \"1000004488\", \"professions\": [4]}',2);
+INSERT INTO `user_professional` VALUES (6,9,NULL,'Alice','Smith','1000004488','{\"name\": \"Alice\", \"email\": \"alice.smith@example.com\", \"lastName\": \"Smith\", \"matricula\": \"1000004488\", \"professions\": [2]}',2),(7,10,NULL,'Bob','Jones','1000004488','{\"name\": \"Bob\", \"email\": \"bob.jones@example.com\", \"lastName\": \"Jones\", \"matricula\": \"1000004488\", \"professions\": [4]}',2),(8,11,NULL,'Charlie','Davis','1000004488','{\"name\": \"Charlie\", \"email\": \"charlie.davis@example.com\", \"lastName\": \"Davis\", \"matricula\": \"1000004488\", \"professions\": [3]}',2),(9,12,NULL,'David','Wilson','1000004488','{\"name\": \"David\", \"email\": \"david.wilson@example.com\", \"lastName\": \"Wilson\", \"matricula\": \"1000004488\", \"professions\": [1]}',2),(10,13,NULL,'Eva','Martin','1000004488','{\"name\": \"Eva\", \"email\": \"eva.martin@example.com\", \"lastName\": \"Martin\", \"matricula\": \"1000004488\", \"professions\": [2]}',2),(11,14,NULL,'Frank','Jackson','1000004488','{\"name\": \"Frank\", \"email\": \"frank.jackson@example.com\", \"lastName\": \"Jackson\", \"matricula\": \"1000004488\", \"professions\": [4]}',2),(12,15,NULL,'Grace','Miller','1000004488','{\"name\": \"Grace\", \"email\": \"grace.miller@example.com\", \"lastName\": \"Miller\", \"matricula\": \"1000004488\", \"professions\": [3]}',2),(13,16,NULL,'Henry','Wilson','1000004488','{\"name\": \"Henry\", \"email\": \"henry.wilson@example.com\", \"lastName\": \"Wilson\", \"matricula\": \"1000004488\", \"professions\": [1]}',2),(14,17,NULL,'Isabella','Jones','1000004488','{\"name\": \"Isabella\", \"email\": \"isabella.jones@example.com\", \"lastName\": \"Jones\", \"matricula\": \"1000004488\", \"professions\": [2]}',2),(15,18,NULL,'Jack','Miller','1000004488','{\"name\": \"Jack\", \"email\": \"jack.miller@example.com\", \"lastName\": \"Miller\", \"matricula\": \"1000004488\", \"professions\": [4]}',2),(16,26,NULL,'Facundo','Merchan','Kfhskfj5355','{\"name\": \"Facundo\", \"email\": \"merchansalvatierrafacundo@gmail.com\", \"lastName\": \"Merchan\", \"userType\": 2, \"matricula\": \"Kfhskfj5355\", \"professions\": [2]}',2);
 /*!40000 ALTER TABLE `user_professional` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -341,7 +341,7 @@ CREATE TABLE `user_professional_professional` (
   KEY `IDX_D4C666B0DB77003` (`professional_id`),
   CONSTRAINT `FK_D4C666B01F6B1C8C` FOREIGN KEY (`user_professional_id`) REFERENCES `user_professional` (`id`),
   CONSTRAINT `FK_D4C666B0DB77003` FOREIGN KEY (`professional_id`) REFERENCES `professional` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -350,7 +350,7 @@ CREATE TABLE `user_professional_professional` (
 
 LOCK TABLES `user_professional_professional` WRITE;
 /*!40000 ALTER TABLE `user_professional_professional` DISABLE KEYS */;
-INSERT INTO `user_professional_professional` VALUES (2,6,2),(3,7,4),(4,8,3),(5,9,1),(6,10,2),(7,11,4),(8,12,3),(9,13,1),(10,14,2),(12,15,3);
+INSERT INTO `user_professional_professional` VALUES (2,6,2),(3,7,4),(4,8,3),(5,9,1),(6,10,2),(7,11,4),(8,12,3),(9,13,1),(10,14,2),(12,15,3),(13,16,2);
 /*!40000 ALTER TABLE `user_professional_professional` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -363,4 +363,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-09-04 18:11:23
+-- Dump completed on 2023-09-05 18:15:49
