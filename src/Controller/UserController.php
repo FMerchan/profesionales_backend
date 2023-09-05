@@ -67,9 +67,10 @@ class UserController extends AbstractController
             $user = $userRepository->findOneBy(['email' => $data['data']['usuario']['perfil']['email']]);
 
             if (!$user) {
-                $user = $this->userService->createUserMobile($data, null);
+                $userProfessional = $this->userService->createUserMobile($data, null);
+            } else {
+                $userProfessional = $user->getUserProfessional();
             }
-            $userProfessional = $user->getUserProfessional();
 
             return new JsonResponse(['status' => true, 'message' => 'User created', 'id' => $userProfessional->getId()]);
         } catch (\Exception $e) {
