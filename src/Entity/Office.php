@@ -278,6 +278,9 @@ class Office
 
     public function getFullAsArray(): array
     {
+        $aux = explode(" ", $this->getAddress());
+        $number = $aux[count($aux) -1];
+        $street = trim(str_replace($number, '', $this->getAddress()));
         return [
             'id' => $this->getId(),
             'name' => $this->getName(),
@@ -286,9 +289,16 @@ class Office
             'longitud' => $this->getLongitude(),
             'latitud' => $this->getLatitude(),
             'price' => $this->getPrice(),
-            'businessDays' => $this->getBusinessDays(),
+            'business_days' => $this->getBusinessDays(),
             'duration' => $this->getDuration(),
-            'availableTimes' => $this->getAvailableTimes(),
+            'available_times' => $this->getAvailableTimes(),
+            'localization' => [
+                'address' => $street,
+                'number' => $number,
+                'state_id' => $this->getState()->getId(),
+                'city_id' => $this->getCity()->getId(),
+                'postal_code' => $this->getPostalCode(),
+            ],
         ];
     }
 

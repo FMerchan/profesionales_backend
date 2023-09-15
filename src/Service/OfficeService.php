@@ -2,7 +2,9 @@
 
 namespace App\Service;
 
+use App\Entity\City;
 use App\Entity\Office;
+use App\Entity\State;
 use App\Entity\UserProfessional;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -27,22 +29,36 @@ class OfficeService
 
         $office->setName($data['name'] ?? null);
         $office->setDetail($data['detail'] ?? null);
-        $office->setAddress($data['address'] ?? null);
         $office->setDuration($data['duration'] ?? null);
         $office->setPrice($data['price'] ?? null);
-        $office->setBusinessDays($data['daysAttention'] ?? null);
-        $office->setAvailableTimes($data['availableTimes'] ?? null);
+        $office->setBusinessDays($data['business_days'] ?? null);
+        $office->setAvailableTimes($data['available_times'] ?? null);
+
+        $office->setAddress($data['localization']['address'] . ' ' . $data['localization']['number']  ?? null);
+        $office->setPostalCode($data['localization']['postal_code'] ?? null);
+        $office->setLongitude($data['localization']['coordinates']['longitude'] ?? null);
+        $office->setLatitude($data['localization']['coordinates']['latitude'] ?? null);
+
+        // Obtener y asociar la entidad City
+        if (isset($data['localization']['city_id'])) {
+            $city = $this->entityManager->getRepository(City::class)->find($data['localization']['city_id']);
+            if (!$city) {
+                throw new \InvalidArgumentException("La ciudad con ID $cityId no existe.");
+            }
+            $office->setCity($city);
+        }
+
+        // Obtener y asociar la entidad State
+        if (isset($data['localization']['state_id'])) {
+            $state = $this->entityManager->getRepository(State::class)->find($data['localization']['state_id']);
+            if (!$state) {
+                throw new \InvalidArgumentException("El estado con ID $stateId no existe.");
+            }
+
+            $office->setState($state);
+        }
+
         $office->setUserProfessional($userProfessional);
-
-
-        // Obtener coordenadas desde el servicio de geocodificación
-        /*$coordinates = $this->geocoderService->getCoordinatesByIPAndAddress($userIP, $data['address']);
-        if ($coordinates) {
-            $office->setLongitude($coordinates['lng']);
-            $office->setLatitude($coordinates['lat']);
-            $office->setCity($coordinates['city']);
-            $office->setCountry($coordinates['country']);
-        }*/
 
         // Persistir en la base de datos
         $this->entityManager->persist($office);
@@ -55,12 +71,12 @@ class OfficeService
     private function validateData(array $data): bool
     {
         // Validar la existencia de al menos una franja horaria
-        if (empty($data['availableTimes'])) {
+        if (empty($data['available_times'])) {
             throw new \InvalidArgumentException("Debe haber al menos una franja horaria.");
         }
 
         // Validar la estructura y coherencia de las franjas horarias
-        $timeSlots = $data['availableTimes'];
+        $timeSlots = $data['available_times'];
         $usedTimeSlots = [];
 
         // Validar la estructura y coherencia de las franjas horarias
