@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Office;
-use App\Entity\Professional;
 use App\Repository\UserProfessionalRepository;
 use App\Service\OfficeService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -49,14 +48,44 @@ class OfficeController extends AbstractController
                 return new JsonResponse(['status' => false, 'message' => 'UserProfessional not found']);
             }
 
-            // Obtener la dirección IP del usuario
-            $userIP = $request->getClientIp();
+            $jsonData = $request->getContent();
+            $data = json_decode($jsonData, true);
+
+            // Crear la oficina utilizando el servicio
+            $office = $this->officeService->createOffice($userProfessional, $data);
+            return new JsonResponse(['status' => true, 'message' => 'Office created']);
+        } catch (\InvalidArgumentException $e) {
+            $errorMessage = 'Error creating office: ' . $e->getMessage();
+            $this->logger->error($errorMessage);
+
+            return new JsonResponse(['status' => false, 'message' => $e->getMessage()]);
+        } catch (\Exception $e) {
+            $errorMessage = 'Error creating office: ' . $e->getMessage() . "\n" . $e->getTraceAsString();
+            $this->logger->error($errorMessage);
+
+            return new JsonResponse(['status' => false, 'error' => $e->getMessage()]);
+        }
+    }
+
+
+    /**
+     * @Route("/edit-office/{userProfessionalId}/{officeId}", name="edit_office", methods={"POST"})
+     */
+    public function editOffice(Request $request, int $userProfessionalId, int $officeId): JsonResponse
+    {
+        try {
+            // Obtener el UserProfessional desde la base de datos
+            $userProfessional = $this->userProfessionalRepository->find($userProfessionalId);
+
+            if (!$userProfessional) {
+                return new JsonResponse(['status' => false, 'message' => 'UserProfessional not found']);
+            }
 
             $jsonData = $request->getContent();
             $data = json_decode($jsonData, true);
 
             // Crear la oficina utilizando el servicio
-            $office = $this->officeService->createOffice($userProfessional, $data, $userIP);
+            $office = $this->officeService->createOffice($userProfessional, $data, $officeId);
             return new JsonResponse(['status' => true, 'message' => 'Office created']);
         } catch (\InvalidArgumentException $e) {
             $errorMessage = 'Error creating office: ' . $e->getMessage();

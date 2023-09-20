@@ -298,6 +298,10 @@ class Office
                 'state_id' => $this->getState()->getId(),
                 'city_id' => $this->getCity()->getId(),
                 'postal_code' => $this->getPostalCode(),
+                'coordinates' => [
+                    'longitude' => $this->getLongitude(),
+                    'latitude' => $this->getLatitude(),
+                ]
             ],
         ];
     }

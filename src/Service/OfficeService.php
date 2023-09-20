@@ -11,21 +11,24 @@ use Doctrine\ORM\EntityManagerInterface;
 class OfficeService
 {
     private EntityManagerInterface $entityManager;
-    private OpenStreetMapGeocoderService $geocoderService;
 
-    public function __construct(EntityManagerInterface $entityManager, OpenStreetMapGeocoderService $geocoderService)
+    public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
-        $this->geocoderService = $geocoderService;
     }
 
-    public function createOffice(UserProfessional $userProfessional, array $data, ?string $userIP): Office
+    public function createOffice(UserProfessional $userProfessional, array $data, ?int $officeId = null): Office
     {
         // Validar los datos antes de continuar
         $this->validateData($data);
 
         // Crear una nueva instancia de la entidad Office
-        $office = new Office();
+        if (is_null($officeId)) {
+            $office = new Office();
+        } else {
+            $entityManager = $this->entityManager;
+            $office = $entityManager->getRepository(Office::class)->find($officeId);
+        }
 
         $office->setName($data['name'] ?? null);
         $office->setDetail($data['detail'] ?? null);
@@ -43,7 +46,7 @@ class OfficeService
         if (isset($data['localization']['city_id'])) {
             $city = $this->entityManager->getRepository(City::class)->find($data['localization']['city_id']);
             if (!$city) {
-                throw new \InvalidArgumentException("La ciudad con ID $cityId no existe.");
+                throw new \InvalidArgumentException("La ciudad con ID " . $data['localization']['city_id'] . " no existe.");
             }
             $office->setCity($city);
         }
@@ -52,16 +55,17 @@ class OfficeService
         if (isset($data['localization']['state_id'])) {
             $state = $this->entityManager->getRepository(State::class)->find($data['localization']['state_id']);
             if (!$state) {
-                throw new \InvalidArgumentException("El estado con ID $stateId no existe.");
+                throw new \InvalidArgumentException("El estado con ID " . $data['localization']['state_id'] . " no existe.");
             }
 
             $office->setState($state);
         }
 
-        $office->setUserProfessional($userProfessional);
-
         // Persistir en la base de datos
-        $this->entityManager->persist($office);
+        if (is_null($officeId)) {
+            $office->setUserProfessional($userProfessional);
+            $this->entityManager->persist($office);
+        }
         $this->entityManager->flush();
 
         return $office;
