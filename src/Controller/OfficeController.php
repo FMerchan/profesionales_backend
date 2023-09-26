@@ -132,4 +132,12 @@ class OfficeController extends AbstractController
         return $this->json($response);
     }
 
+    /**
+     * @Route("/available-dates-times/{id}", name="available_dates_times", methods={"GET"})
+     */
+    public function availableDatesTimes(int $id): JsonResponse
+    {
+        $availableDatesAndTimes = $this->officeService->calculateAvailableDatesAndTimes($id);
+        return $this->json($availableDatesAndTimes);
+    }
 }

@@ -5,10 +5,13 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\TurnRepository")
  */
 class Turn
 {
+    const CANCELED_BY_USER = 1;
+    const CANCELED_BY_PROFESSIONAL = 2;
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -19,12 +22,32 @@ class Turn
     /**
      * @ORM\Column(type="datetime")
      */
-    private \DateTimeInterface $date;
+    private \DateTime $date;
 
     /**
      * @ORM\Column(type="integer")
      */
     private int $duration;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private ?string $professionalObservation = null;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private ?string $userObservation = null;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private bool $cancelled = false;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private ?int $cancelledBy = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="UserProfessional")
@@ -43,12 +66,12 @@ class Turn
         return $this->id;
     }
 
-    public function getDate(): \DateTimeInterface
+    public function getDate(): \DateTime
     {
         return $this->date;
     }
 
-    public function setDate(\DateTimeInterface $date): self
+    public function setDate(\DateTime $date): self
     {
         $this->date = $date;
         return $this;
@@ -85,5 +108,62 @@ class Turn
     {
         $this->office = $office;
         return $this;
+    }
+
+    public function getProfessionalObservation(): ?string
+    {
+        return $this->professionalObservation;
+    }
+
+    public function setProfessionalObservation(?string $professionalObservation): self
+    {
+        $this->professionalObservation = $professionalObservation;
+        return $this;
+    }
+
+    public function getUserObservation(): ?string
+    {
+        return $this->userObservation;
+    }
+
+    public function setUserObservation(?string $userObservation): self
+    {
+        $this->userObservation = $userObservation;
+        return $this;
+    }
+
+    public function isCancelled(): bool
+    {
+        return $this->cancelled;
+    }
+
+    public function setCancelled(bool $cancelled): self
+    {
+        $this->cancelled = $cancelled;
+        return $this;
+    }
+
+    public function getCancelledBy(): ?int
+    {
+        return $this->cancelledBy;
+    }
+
+    public function setCancelledBy(?int $cancelledBy): self
+    {
+        $this->cancelledBy = $cancelledBy;
+        return $this;
+    }
+
+    public function getAsArray(): array
+    {
+        $office = $this->getOffice();
+        $professional = $this->office->getUserProfessional();
+        return [
+            'id' => $this->getId(),
+            'date' => $this->getDate()->format('Y-m-d H:i'),
+            'duration' => $this->getDuration(),
+            'office' => $office->getAsArray(),
+            'professional' => $professional->getUserProfessionalAsArray()
+        ];
     }
 }

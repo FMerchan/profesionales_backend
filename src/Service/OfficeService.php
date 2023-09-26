@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Entity\City;
 use App\Entity\Office;
 use App\Entity\State;
+use App\Entity\Turn;
 use App\Entity\UserProfessional;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -112,5 +113,77 @@ class OfficeService
         }
 
         return true;
+    }
+
+    public function calculateAvailableDatesAndTimes(int $officeId): array
+    {
+        // Obtener la información de la oficina
+        $office = $this->entityManager->getRepository(Office::class)->find($officeId);
+
+        // Obtener los tiempos disponibles para turnos de la oficina
+        $availableTimes = $office->getAvailableTimes();
+        $businessDays = $office->getBusinessDays();
+
+        // Calcular las fechas y horarios disponibles
+        $availableDatesAndTimes = [];
+
+        $currentDate = new \DateTime();
+        $currentDate->modify('+1 days');
+        $endDate = new \DateTime();
+        $endDate->modify('+30 days');
+
+        while ($currentDate <= $endDate) {
+            $currentDayOfWeek = $currentDate->format('w');
+            // Verificar si el día actual está en el array de días hábiles
+            if (in_array(Office::DAY_AVAILABLE_MAPPING[$currentDayOfWeek], $businessDays) !== false) {
+                // Obtener los turnos existentes para la oficina
+                $existingTurns = $this->entityManager->getRepository(Turn::class)->findByOfficeIdAndDates($officeId, $currentDate->format('Y-m-d 00:00:00'), $currentDate->format('Y-m-d 23:59:59'));
+
+                $availableDatesAndTimes[$currentDate->format('Y-m-d')] = [];
+
+                foreach ($availableTimes as $timeSlot) {
+                    $from = strtotime( $currentDate->format('Y-m-d') .' '. $timeSlot['from']);
+                    $until = strtotime( $currentDate->format('Y-m-d') .' '. $timeSlot['until']);
+
+                    if ($from === false || $until === false || $from >= $until) {
+                        // Validación de tiempos inválidos
+                        continue;
+                    }
+
+                    // Generar las fechas y horarios dentro del intervalo
+                    $currentTime = $from;
+                    while ($currentTime < $until) {
+                        $endTime = $currentTime + ($office->getDuration() * 60); // Duración del turno en segundos
+
+                        // Verificar si el horario actual está disponible
+                        if (!$this->isTimeSlotBooked($existingTurns, $currentTime, $endTime)) {
+                            $availableDatesAndTimes[$currentDate->format('Y-m-d')][] =  date('H:i', $currentTime);
+                            //$availableDatesAndTimes[] = date('Y-m-d H:i:s', $currentTime);
+                        }
+
+                        $currentTime += ($office->getDuration() * 60);
+                    }
+                }
+            }
+
+            $currentDate->modify('+1 day');
+        }
+
+        return $availableDatesAndTimes;
+    }
+
+    private function isTimeSlotBooked(array $existingTurns, int $startTime, int $endTime): bool
+    {
+        // Verificar si hay un turno existente que se superponga con el horario dado
+        foreach ($existingTurns as $turn) {
+            $turnStartTime = strtotime($turn->getDate()->format('Y-m-d H:i:s'));
+            $turnEndTime = $turnStartTime + ($turn->getDuration() * 60);
+
+            if ($startTime >= $turnStartTime && $startTime < $turnEndTime) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

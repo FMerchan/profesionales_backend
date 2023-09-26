@@ -9,6 +9,16 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Office
 {
+    const DAY_AVAILABLE_MAPPING = [
+        0 => "D",
+        1 => "L",
+        2 => "M",
+        3 => "X",
+        4 => "J",
+        5 => "V",
+        6 => "S",
+    ];
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -268,6 +278,7 @@ class Office
     public function getAsArray(): array
     {
         return [
+            'id' => $this->getId(),
             'name' => $this->getName(),
             'address' => $this->getAddress(),
             'longitud' => $this->getLongitude(),

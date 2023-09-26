@@ -2,8 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Office;
 use App\Entity\UserProfessional;
-use App\Entity\UserProfessionalProfessional;
 use App\Repository\UserProfessionalRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
@@ -44,5 +44,18 @@ class UserProfessionalController extends AbstractController
         }
 
         return $this->json($responseArray);
+    }
+
+    /**
+     * @Route("/office/{officeId}", name="get_professionals_by_office", methods={"GET"})
+     */
+    public function getProfessionalsByOffice(int $officeId): JsonResponse
+    {
+        /** @var UserProfessionalRepository $userProfessionalRepository */
+        $officeRepository = $this->entityManager->getRepository(Office::class);
+        $office = $officeRepository->find($officeId);
+        $professional = $office->getUserProfessional();
+
+        return $this->json($professional->getUserProfessionalAsArray());
     }
 }
