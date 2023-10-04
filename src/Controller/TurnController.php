@@ -85,7 +85,7 @@ class TurnController extends AbstractController
     public function getProfessionalTurns(int $userProfessionalId): JsonResponse
     {
         $turns = $this->entityManager->getRepository(Turn::class)
-            ->findBy(['userProfessional' => $userProfessionalId]);
+            ->findOpenTurns($userProfessionalId);
 
         // Convert the professionals array to a format suitable for JSON response
         $responseArray = [];

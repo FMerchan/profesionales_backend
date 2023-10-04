@@ -163,7 +163,9 @@ class Turn
             'date' => $this->getDate()->format('Y-m-d H:i'),
             'duration' => $this->getDuration(),
             'office' => $office->getAsArray(),
-            'professional' => $professional->getUserProfessionalAsArray()
+            'professional' => $professional->getUserProfessionalAsArray(),
+            'user' => $this->getUserProfessional()->getUserProfessionalAsArray()
         ];
     }
+
 }

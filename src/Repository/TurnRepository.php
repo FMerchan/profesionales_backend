@@ -45,13 +45,32 @@ class TurnRepository extends ServiceEntityRepository
 
     public function findOpenTurns(int $userProfessionalId) {
         $fecha = new \DateTime();
+
+        // Obtener los IDs de las oficinas asociadas al userProfessional
+        $officeIds = $this->createQueryBuilder('o')
+            ->select('o.id')
+            ->where('o.userProfessional = :userProfessionalId')
+            ->setParameter('userProfessionalId', $userProfessionalId)
+            ->getQuery()
+            ->getResult(); // Obtener un array de IDs
+
+        // Extraer los IDs en un array simple
+        $officeIdsArray = array_map(function($result) {
+            return $result['id'];
+        }, $officeIds);
+
+        // Realizar una segunda consulta para obtener los turnos relacionados con las oficinas
         return $this->createQueryBuilder('t')
-            ->where('t.userProfessional = :userProfessional')
+            ->where('t.office IN (:officeIds)')
+            ->andWhere(' t.cancelled = 0')
             ->andWhere('t.date > :date')
-            ->andWhere('t.cancelled = 0')
-            ->setParameter('userProfessional', $userProfessionalId)
+            ->setParameter('officeIds', $officeIdsArray)
             ->setParameter('date', $fecha->format('Y-m-d 23:59'))
             ->getQuery()
             ->getResult();
+    }
+
+    public function findProfessionalTurns(int $userProfessionalId) {
+
     }
 }
