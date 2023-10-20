@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.34, for Linux (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.33, for Linux (x86_64)
 --
 -- Host: localhost    Database: backend
 -- ------------------------------------------------------
--- Server version	8.0.34-0ubuntu0.20.04.1
+-- Server version	8.0.33-0ubuntu0.20.04.2
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -92,7 +92,7 @@ CREATE TABLE `doctrine_migration_versions` (
 
 LOCK TABLES `doctrine_migration_versions` WRITE;
 /*!40000 ALTER TABLE `doctrine_migration_versions` DISABLE KEYS */;
-INSERT INTO `doctrine_migration_versions` VALUES ('DoctrineMigrations\\Version20230813234321','2023-08-13 20:43:58',100),('DoctrineMigrations\\Version20230814021528','2023-08-13 23:19:55',133),('DoctrineMigrations\\Version20230814034551','2023-08-14 00:45:59',84),('DoctrineMigrations\\Version20230814034822','2023-08-14 00:48:25',19),('DoctrineMigrations\\Version20230814225337','2023-08-14 20:27:51',268),('DoctrineMigrations\\Version20230821195949','2023-08-21 17:02:41',60),('DoctrineMigrations\\Version20230823010123','2023-08-22 22:01:28',89),('DoctrineMigrations\\Version20230920230857','2023-09-20 20:09:18',40),('DoctrineMigrations\\Version20230926024723','2023-09-25 23:48:12',68),('DoctrineMigrations\\Version20230926040048','2023-09-26 01:01:11',80);
+INSERT INTO `doctrine_migration_versions` VALUES ('DoctrineMigrations\\Version20230813234321','2023-08-13 20:43:58',100),('DoctrineMigrations\\Version20230814021528','2023-08-13 23:19:55',133),('DoctrineMigrations\\Version20230814034551','2023-08-14 00:45:59',84),('DoctrineMigrations\\Version20230814034822','2023-08-14 00:48:25',19),('DoctrineMigrations\\Version20230814225337','2023-08-14 20:27:51',268),('DoctrineMigrations\\Version20230821195949','2023-08-21 17:02:41',60),('DoctrineMigrations\\Version20230823010123','2023-08-22 22:01:28',89);
 /*!40000 ALTER TABLE `doctrine_migration_versions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -129,7 +129,7 @@ CREATE TABLE `office` (
   CONSTRAINT `FK_74516B025D83CC1` FOREIGN KEY (`state_id`) REFERENCES `state` (`id`),
   CONSTRAINT `FK_74516B028BAC62AF` FOREIGN KEY (`city_id`) REFERENCES `city` (`id`),
   CONSTRAINT `FK_74516B02F92F3E70` FOREIGN KEY (`country_id`) REFERENCES `country` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -138,7 +138,7 @@ CREATE TABLE `office` (
 
 LOCK TABLES `office` WRITE;
 /*!40000 ALTER TABLE `office` DISABLE KEYS */;
-INSERT INTO `office` VALUES (1,66248,NULL,4880,'Consultorio H',NULL,'Puyrredon 440','1419',-58.3942600,-34.6048080,1500.00,NULL,'[\"M\", \"X\", \"J\", \"V\", \"S\"]',30,'[{\"from\": \"9:00\", \"until\": \"12:30\"}, {\"from\": \"14:00\", \"until\": \"16:00\"}, {\"from\": \"17:00\", \"until\": \"20:30\"}]',6),(2,66248,NULL,4880,'Consultorio H',NULL,'Puyrredon 440','1419',-58.3942600,-34.6048080,2500.00,NULL,'[\"M\", \"X\", \"J\", \"V\", \"S\"]',30,'[{\"from\": \"9:00\", \"until\": \"12:30\"}, {\"from\": \"14:00\", \"until\": \"16:00\"}, {\"from\": \"17:00\", \"until\": \"20:30\"}]',8),(3,66248,NULL,4880,'Consultorio B',NULL,'Necochea 670','1419',-58.4056310,-34.6144470,2300.00,NULL,'[\"M\", \"X\", \"J\", \"V\", \"S\"]',30,'[{\"from\": \"14:00\", \"until\": \"20:00\"}]',9),(4,66248,NULL,4880,'Consultorio A',NULL,'Av Cordoba 1400','1419',-58.3704150,-34.5978290,2100.00,NULL,'[\"L\", \"M\", \"X\", \"J\", \"V\"]',30,'[{\"from\": \"9:00\", \"until\": \"12:30\"}, {\"from\": \"14:00\", \"until\": \"16:30\"}]',12),(7,66248,NULL,4880,'Consultorio 1','','Solano Lopez 3364','1419',-58.5016748,-34.5973378,1500.00,NULL,'[\"M\", \"V\", \"S\", \"J\", \"X\"]',30,'[{\"from\": \"9:00\", \"until\": \"14:00\"}, {\"from\": \"15:00\", \"until\": \"19:00\"}]',12),(8,66248,NULL,4880,'Oficina 1','','Solano lopez 3364','1419',-58.5016748,-34.5973378,300.00,NULL,'[\"L\", \"M\", \"J\", \"V\"]',30,'[{\"from\": \"2:00\", \"until\": \"4:30\"}, {\"from\": \"5:00\", \"until\": \"7:00\"}]',16),(9,66248,NULL,4880,'Oficina 5','','Corrientes 4070','1419',-58.4220284,-34.6031901,6000.00,NULL,'[\"J\", \"S\", \"L\", \"M\"]',30,'[{\"from\": \"2:00\", \"until\": \"3:00\"}, {\"from\": \"7:00\", \"until\": \"8:30\"}, {\"from\": \"10:30\", \"until\": \"12:30\"}]',16),(10,66248,NULL,4880,'Oficina 6','','Solano lopez 3364','1419',-58.5016748,-34.5973378,500.00,NULL,'[\"J\", \"L\", \"S\", \"V\", \"M\"]',30,'[{\"from\": \"8:00\", \"until\": \"10:00\"}, {\"from\": \"14:00\", \"until\": \"18:00\"}]',16);
+INSERT INTO `office` VALUES (1,NULL,NULL,NULL,'Consultorio H',NULL,'Puyrredon 440',NULL,-58.3942600,-34.6048080,1500.00,NULL,'[\"M\", \"X\", \"J\", \"V\", \"S\"]',30,'[{\"from\": \"9:00\", \"until\": \"12:30\"}, {\"from\": \"14:00\", \"until\": \"16:00\"}, {\"from\": \"17:00\", \"until\": \"20:30\"}]',6),(2,NULL,NULL,NULL,'Consultorio H',NULL,'Puyrredon 440',NULL,-58.3942600,-34.6048080,2500.00,NULL,'[\"M\", \"X\", \"J\", \"V\", \"S\"]',30,'[{\"from\": \"9:00\", \"until\": \"12:30\"}, {\"from\": \"14:00\", \"until\": \"16:00\"}, {\"from\": \"17:00\", \"until\": \"20:30\"}]',8),(3,NULL,NULL,NULL,'Consultorio B',NULL,'Necochea 670',NULL,-58.4056310,-34.6144470,2300.00,NULL,'[\"M\", \"X\", \"J\", \"V\", \"S\"]',30,'[{\"from\": \"14:00\", \"until\": \"20:00\"}]',9),(4,NULL,NULL,NULL,'Consultorio A',NULL,'Av Cordoba 1400',NULL,-58.3704150,-34.5978290,2100.00,NULL,'[\"L\", \"M\", \"X\", \"J\", \"V\"]',30,'[{\"from\": \"9:00\", \"until\": \"12:30\"}, {\"from\": \"14:00\", \"until\": \"16:30\"}]',12),(7,NULL,NULL,NULL,'Consultorio 1','','Solano Lopez 3364','',-58.5016748,-34.5973378,1500.00,NULL,'[\"M\", \"V\", \"S\", \"J\", \"X\"]',30,'[{\"from\": \"9:00\", \"until\": \"14:00\"}, {\"from\": \"15:00\", \"until\": \"19:00\"}]',12),(8,66248,NULL,4880,'Oficina 1','','Solano lopez 3364','1419',-58.5016748,-34.5973378,300.00,NULL,'[\"L\", \"M\", \"J\", \"V\"]',30,'[{\"from\": \"2:00\", \"until\": \"4:30\"}, {\"from\": \"5:00\", \"until\": \"7:00\"}]',16),(9,66212,NULL,4880,'Oficina 5','','Corrientes 4070','1194',-58.4220284,-34.6031901,6000.00,NULL,'[\"J\", \"S\", \"L\", \"M\"]',30,'[{\"from\": \"2:00\", \"until\": \"3:00\"}]',16);
 /*!40000 ALTER TABLE `office` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -236,16 +236,12 @@ CREATE TABLE `turn` (
   `office_id` int NOT NULL,
   `date` datetime NOT NULL,
   `duration` int NOT NULL,
-  `professional_observation` longtext COLLATE utf8mb4_unicode_ci,
-  `user_observation` longtext COLLATE utf8mb4_unicode_ci,
-  `cancelled` tinyint(1) NOT NULL,
-  `cancelled_by` int NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `IDX_20201547FFA0C224` (`office_id`),
   KEY `IDX_202015471F6B1C8C` (`user_professional_id`),
+  KEY `IDX_20201547FFA0C224` (`office_id`),
   CONSTRAINT `FK_202015471F6B1C8C` FOREIGN KEY (`user_professional_id`) REFERENCES `user_professional` (`id`),
   CONSTRAINT `FK_20201547FFA0C224` FOREIGN KEY (`office_id`) REFERENCES `office` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -254,7 +250,6 @@ CREATE TABLE `turn` (
 
 LOCK TABLES `turn` WRITE;
 /*!40000 ALTER TABLE `turn` DISABLE KEYS */;
-INSERT INTO `turn` VALUES (1,16,10,'2023-09-25 15:00:00',30,NULL,NULL,0,0),(2,16,3,'2023-09-29 14:00:00',30,NULL,NULL,0,0),(3,16,3,'2023-09-29 09:00:00',30,NULL,NULL,1,1),(4,16,3,'2023-09-29 15:00:00',30,NULL,NULL,0,0),(5,16,1,'2023-10-10 10:30:00',30,NULL,NULL,0,0);
 /*!40000 ALTER TABLE `turn` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -368,4 +363,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-10-04  7:56:13
+-- Dump completed on 2023-09-14 23:21:54

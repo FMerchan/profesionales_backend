@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\LegalDocument;
 use App\Entity\Office;
 use App\Entity\Professional;
 use App\Entity\UserProfessional;
@@ -36,6 +37,7 @@ class DashboardController extends AbstractDashboardController
             MenuItem::linkToCrud('Profesiones', 'fa fa-book', Professional::class),
             MenuItem::linkToCrud('Oficinas', 'fa fa-building', Office::class),
             MenuItem::linkToRoute('App', 'fas fa-mobile-alt', 'app_page'),
+            MenuItem::linkToCrud('TyC/Doc Privacidad', 'fas fa-mobile-alt', LegalDocument::class),
         ];
     }
 }

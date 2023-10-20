@@ -1,0 +1,19 @@
+{# Plantilla Twig para mostrar la alerta antes de guardar #}
+{% block body_javascript %}
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const isActiveField = document.querySelector('#{{ form.isActive.vars.id }}');
+    const saveButton = document.querySelector('.btn-primary'); // Asegúrate de que la clase sea la correcta
+
+    isActiveField.addEventListener('change', function () {
+      if (isActiveField.checked) {
+        if (confirm('Activar este documento desactivará el documento actualmente activo. ¿Estás seguro?')) {
+          // Continuar con el guardado
+          saveButton.click(); // Simular un clic en el botón de guardar
+        } else {
+          isActiveField.checked = false; // Desmarcar el campo isActive
+        }
+      }
+    });
+  });
+</script>
