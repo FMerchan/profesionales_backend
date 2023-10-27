@@ -92,8 +92,35 @@ CREATE TABLE `doctrine_migration_versions` (
 
 LOCK TABLES `doctrine_migration_versions` WRITE;
 /*!40000 ALTER TABLE `doctrine_migration_versions` DISABLE KEYS */;
-INSERT INTO `doctrine_migration_versions` VALUES ('DoctrineMigrations\\Version20230813234321','2023-08-13 20:43:58',100),('DoctrineMigrations\\Version20230814021528','2023-08-13 23:19:55',133),('DoctrineMigrations\\Version20230814034551','2023-08-14 00:45:59',84),('DoctrineMigrations\\Version20230814034822','2023-08-14 00:48:25',19),('DoctrineMigrations\\Version20230814225337','2023-08-14 20:27:51',268),('DoctrineMigrations\\Version20230821195949','2023-08-21 17:02:41',60),('DoctrineMigrations\\Version20230823010123','2023-08-22 22:01:28',89),('DoctrineMigrations\\Version20230920230857','2023-09-20 20:09:18',40),('DoctrineMigrations\\Version20230926024723','2023-09-25 23:48:12',68),('DoctrineMigrations\\Version20230926040048','2023-09-26 01:01:11',80),('DoctrineMigrations\\Version20231017232049','2023-10-17 20:41:16',26),('DoctrineMigrations\\Version20231020021718','2023-10-19 23:17:38',33);
+INSERT INTO `doctrine_migration_versions` VALUES ('DoctrineMigrations\\Version20230813234321','2023-08-13 20:43:58',100),('DoctrineMigrations\\Version20230814021528','2023-08-13 23:19:55',133),('DoctrineMigrations\\Version20230814034551','2023-08-14 00:45:59',84),('DoctrineMigrations\\Version20230814034822','2023-08-14 00:48:25',19),('DoctrineMigrations\\Version20230814225337','2023-08-14 20:27:51',268),('DoctrineMigrations\\Version20230821195949','2023-08-21 17:02:41',60),('DoctrineMigrations\\Version20230823010123','2023-08-22 22:01:28',89),('DoctrineMigrations\\Version20230920230857','2023-09-20 20:09:18',40),('DoctrineMigrations\\Version20230926024723','2023-09-25 23:48:12',68),('DoctrineMigrations\\Version20230926040048','2023-09-26 01:01:11',80),('DoctrineMigrations\\Version20231017232049','2023-10-17 20:41:16',26),('DoctrineMigrations\\Version20231020021718','2023-10-19 23:17:38',33),('DoctrineMigrations\\Version20231027115314','2023-10-27 08:53:40',17);
 /*!40000 ALTER TABLE `doctrine_migration_versions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `email_template`
+--
+
+DROP TABLE IF EXISTS `email_template`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `email_template` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `subject` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `body` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `type` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `email_template`
+--
+
+LOCK TABLES `email_template` WRITE;
+/*!40000 ALTER TABLE `email_template` DISABLE KEYS */;
+INSERT INTO `email_template` VALUES (1,'Persona - Turno acordado','Turno Acordado','El turno\r\n[TURNO]\r\nFue confirmado con exito','TEMPLATE_APPOINTMENT_SCHEDULED_PERSONAL'),(2,'Persona - Turno cancelado','Turno Cancelado','Buenos Dia [NOMBRE]\r\n\r\nSu Turno fue cancelado\r\n[TURNO]','TEMPLATE_APPOINTMENT_CANCELED_PERSONAL'),(3,'Persona - Recordatorio turnos del dia','Recordatorio turnos del dia','Buen dia [NOMBRE]\r\n\r\nLe recordamos que en el dia de la fecha tiene el/los turnos\r\n[TURNOS]','TEMPLATE_DAILY_APPOINTMENTS_REMINDER_PERSONAL'),(4,'Profesional - Turno acordado','Turno Acordado','El turno\r\n[TURNO]\r\nFue confirmado con exito','TEMPLATE_APPOINTMENT_SCHEDULED_PROFESSIONAL'),(5,'Profesional - Turno cancelado','Turno Cancelado','Buenos Dia [NOMBRE]\r\n\r\nSu Turno fue cancelado\r\n[TURNO]','TEMPLATE_APPOINTMENT_CANCELED_PROFESSIONAL'),(6,'Profesional - Recordatorio turnos del dia','Recordatorio turnos del dia','Buen dia [NOMBRE]\r\n\r\nLe recordamos que en el dia de la fecha tiene el/los turnos\r\n[TURNOS]','TEMPLATE_DAILY_APPOINTMENTS_REMINDER_PROFESSIONAL');
+/*!40000 ALTER TABLE `email_template` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -396,4 +423,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-10-20  2:18:08
+-- Dump completed on 2023-10-27 10:43:41
