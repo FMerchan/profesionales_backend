@@ -38,6 +38,7 @@ class UserService
         $userProfessional->setLastName($profile['lastName']);
         $userProfessional->setLicenseNumber($profile['matricula']);
         //$userProfessional->setPhoneNumber($profile['phoneNumber']);
+        $userProfessional->setContactBy($profile['contactBy']);
         $userProfessional->setAuthenticatorData($userData['data']['usuario']['authenticatorData']);
         $userProfessional->setType($profile['userType']);
         $userProfessional->setUser($user);

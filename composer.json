@@ -12,7 +12,7 @@
         "doctrine/doctrine-bundle": "^2.9",
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.15",
-        "easycorp/easyadmin-bundle": "^4.7",
+        "easycorp/easyadmin-bundle": "^4.8",
         "friendsofsymfony/ckeditor-bundle": "^2.4",
         "geoip2/geoip2": "^2.13",
         "guzzlehttp/guzzle": "^7.7",

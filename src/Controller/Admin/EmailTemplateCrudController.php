@@ -18,6 +18,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 
 class EmailTemplateCrudController extends AbstractCrudController
 {
@@ -36,6 +37,7 @@ class EmailTemplateCrudController extends AbstractCrudController
             ->setEntityLabelInSingular('Email Template')
             ->setEntityLabelInPlural('Emails Templates')
             ->setPageTitle(Crud::PAGE_INDEX, 'Emails Templates')
+            ->addFormTheme('@FOSCKEditor/Form/ckeditor_widget.html.twig')
             ->setDefaultSort(['id' => 'DESC']);
     }
 
@@ -54,8 +56,13 @@ class EmailTemplateCrudController extends AbstractCrudController
             TextField::new('name'),
             TextField::new('subject'),
             TextareaField::new('body')
-                ->setFormTypeOption('attr', ['class' => 'ckeditor'])
-                ->hideOnIndex(),
+                ->hideOnIndex()
+                ->setFormType(CKEditorType::class)
+                ->setFormTypeOptions([
+                    'config' => [
+                        'removeButtons' => 'Save,NewPage,ExportPdf,Find', // Quítale el botón "Guardar"
+                    ],
+                ]),
             TextField::new('type')->onlyOnIndex(),
         ];
 

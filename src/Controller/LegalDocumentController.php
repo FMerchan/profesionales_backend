@@ -59,8 +59,8 @@ class LegalDocumentController extends AbstractController
         ]);
 
 
-        return $this->render('legalDocument/terms_and_conditions.html.twig', [
-            'termsAndConditions' => $activeTermsAndConditions->getContent(),
+        return $this->render('legalDocument/privacy_policy.html.twig', [
+            'privacyPolicy' => $activeTermsAndConditions->getContent(),
         ]);
     }
 }

@@ -18,6 +18,16 @@ class UserProfessional
         self::TYPE_PROFESSIONAL
     ];
 
+    const CONTACT_WHATS_APP = 1;
+    const CONTACT_MESSAGE = 2;
+    const CONTACT_EMAIL = 3;
+
+    CONST CONTACTS_OPTIONS = [
+        self::CONTACT_WHATS_APP,
+        self::CONTACT_MESSAGE,
+        self::CONTACT_EMAIL,
+    ];
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -44,6 +54,11 @@ class UserProfessional
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private string $licenseNumber;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private int $contactBy = self::CONTACT_WHATS_APP;
 
     /**
      * @ORM\Column(type="integer")
@@ -126,6 +141,18 @@ class UserProfessional
     public function setLicenseNumber(string $licenseNumber): self
     {
         $this->licenseNumber = $licenseNumber;
+
+        return $this;
+    }
+
+    public function getContactBy(): string
+    {
+        return $this->contactBy;
+    }
+
+    public function setContactBy(string $contactBy): self
+    {
+        $this->contactBy = $contactBy;
 
         return $this;
     }

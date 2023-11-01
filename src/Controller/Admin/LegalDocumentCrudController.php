@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
@@ -17,6 +18,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class LegalDocumentCrudController extends AbstractCrudController
 {
@@ -38,7 +41,8 @@ class LegalDocumentCrudController extends AbstractCrudController
             ->setEntityLabelInSingular('Documento Legal')
             ->setEntityLabelInPlural('Documentos Legales')
             ->setPageTitle(Crud::PAGE_INDEX, 'Documentos legales')
-            ->setDefaultSort(['id' => 'DESC']);
+            ->setDefaultSort(['id' => 'DESC'])
+            ->addFormTheme('@FOSCKEditor/Form/ckeditor_widget.html.twig');
     }
 
     public function configureActions(Actions $actions): Actions
@@ -56,10 +60,15 @@ class LegalDocumentCrudController extends AbstractCrudController
                 'Términos y Condiciones' => LegalDocument::TERMS_AND_CONDITIONS,
                 'Política de Privacidad' => LegalDocument::PRIVACY_POLICY,
             ])->allowMultipleChoices(false),
-            TextareaField::new('content')
-                ->setFormTypeOption('attr', ['class' => 'ckeditor'])
-                ->hideOnIndex(),
             BooleanField::new('isActive'),
+            TextareaField::new('content')
+                ->hideOnIndex()
+                ->setFormType(CKEditorType::class)
+                ->setFormTypeOptions([
+                    'config' => [
+                        'removeButtons' => 'Save,NewPage,ExportPdf,Find',
+                    ],
+                ]),
             DateField::new('validFrom')->setFormat('yyyy-MM-dd')->onlyOnIndex(),
             DateField::new('validUntil')->setFormat('yyyy-MM-dd')->onlyOnIndex(),
         ];
