@@ -1,0 +1,28 @@
+{# templates/admin/show.html.twig #}
+
+{% extends 'bundles/EasyAdminBundle/layout.html.twig' %}
+
+{% block content %}
+    <h1>Detalles de la oficina</h1>
+
+    <p><strong>Nombre:</strong> {{ entity.name }}</p>
+    <p><strong>Dirección:</strong> {{ entity.address }}</p>
+    <p><strong>Latitud:</strong> {{ entity.latitude }}</p>
+    <p><strong>Longitud:</strong> {{ entity.longitude }}</p>
+
+    <div id="map" style="height: 400px;"></div>
+    <script>
+      var lat = {{ entity.latitude }};
+      var lon = {{ entity.longitude }};
+
+      var map = L.map('map').setView([lat, lon], 15);
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+      }).addTo(map);
+
+      L.marker([lat, lon]).addTo(map)
+        .bindPopup("Ubicación de la oficina: {{ entity.name }}")
+        .openPopup();
+    </script>
+{% endblock %}

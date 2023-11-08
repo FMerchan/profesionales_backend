@@ -1,0 +1,8 @@
+#map {
+  width: 100%; /* Ancho del contenedor */
+  height: 400px; /* Altura del contenedor */
+  border: 2px solid #ccc; /* Borde del contenedor */
+  border-radius: 5px; /* Bordes redondeados del contenedor */
+  margin: 10px 0; /* Márgenes superior e inferior del contenedor */
+
+}
